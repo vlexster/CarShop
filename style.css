@@ -3,7 +3,7 @@ body{
     padding: 0px;
     top:0px;
     left:0px;
-    overflow: hidden;
+    /*overflow: auto;*/
 }
 
 
@@ -112,8 +112,8 @@ a:visited{
 .content{
     position: absolute;
     top: 50px;
-    right: 150px;
-    left: 150px;
+    right: 100px;
+    left: 100px;
     bottom: 50px;
     z-index: 1;
 
@@ -149,13 +149,36 @@ iframe{
     width: 30px;
 }
 
-.my_cars, .my_cars tr,  .my_cars th, .my_cars td{
+.my_cars, .my_cars tr,  .my_cars th, .my_cars td, .my_jobs, .my_jobs tr,  .my_jobs th, .my_jobs td {
     width: 500px;
     border: 1px solid black;
     border-collapse: collapse;
 }
 
-.add_form label{
+.comments{
+    width: 400px;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.job_compl{
+    background-color:limegreen;
+}
+
+.job_prog{
+    background-color: yellow;
+}
+
+.job_pend{
+    background-color: deepskyblue;
+}
+
+.add_form label, .add_job label{
     display:inline-block;
     width: 150px;
+}
+
+.add_job{
+    display: none;
 }

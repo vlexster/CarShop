@@ -8,7 +8,7 @@
 
 require_once 'db_connection.php';
 
-///if (isset($_SESSION['login']))
+//if (isset($_SESSION['login']))
 
 session_start();
 //$_SESSION['uname']='username';
@@ -33,6 +33,9 @@ session_start();
                 $(".register").slideToggle("up");
                 $(".login").hide();
             });
+            $(".reg_hide").click(function(){
+                $(".register").slideToggle("up");
+            });
             $(".edit").click(function(){
                 $(".edit_profile").slideToggle("up");
             });
@@ -53,11 +56,44 @@ session_start();
         function validate(){
             var err_counter = 0;
             var uname = document.getElementById("uname").value;
-            var pass = document.getElementById("pass").value;
+            var pass  = document.getElementById("pass").value;
             var pass2 = document.getElementById("pass2").value;
             var email = document.getElementById("email").value;
-            if (pass != pass2) {
-                document.getElementById('pass2').style.backgroundColor="green";
+            var fname = document.getElementById("fname").value;
+            var mname = document.getElementById("mname").value;
+            var lname = document.getElementById("lname").value;
+            if (fname == "" || fname == null) {
+                document.getElementById('fname').style.backgroundColor="yellow";
+                err_counter++}
+            else {
+                document.getElementById('fname').style.backgroundColor="white";
+            };
+            if (mname == "" || mname == null) {
+                document.getElementById('mname').style.backgroundColor="yellow";
+                err_counter++}
+            else {
+                document.getElementById('mname').style.backgroundColor="white";
+            };
+            if (lname == "" || lname == null) {
+                document.getElementById('lname').style.backgroundColor="yellow";
+                err_counter++}
+            else {
+                document.getElementById('lname').style.backgroundColor="white";
+            };
+            if (uname == "" || uname == null || users.indexOf(uname)!=-1) {
+                document.getElementById('uname').style.backgroundColor="red";
+                err_counter++}
+            else {
+                document.getElementById('uname').style.backgroundColor="white";
+            };
+            if (pass != pass2 || pass == "" || pass == null) {
+                document.getElementById('pass').style.backgroundColor="red";
+                err_counter++}
+            else {
+                document.getElementById('pass').style.backgroundColor="green";
+            };
+            if (pass != pass2 || pass2 == "" || pass2 == null) {
+                document.getElementById('pass2').style.backgroundColor="red";
                 err_counter++}
             else {
                 document.getElementById('pass2').style.backgroundColor="green";
@@ -91,7 +127,7 @@ session_start();
             <a href="about.html" target="iframe">About us</a> |
             <a href="contacts.html" target="iframe">Contacts</a> |
             <a href="schedule.php" target="iframe">Schedule</a>
-            <?php if(isset($_SESSION['uname'])) echo " | <a href=\"my_veh.php\" target=\"iframe\">My Vehicles</a> | <a href=\"#\">Jobs Queue</a>"; ?>
+            <?php if(isset($_SESSION['uname'])) echo " | <a href=\"my_veh.php\" target=\"iframe\">My Vehicles</a> | <a href=\"queue.php\" target=\"iframe\">Jobs Queue</a>"; ?>
         </div>
         <div id="right"><?php if (!isset($_SESSION['uname'])) {
                 echo "<a href=\"#\" class=\"reg\">Register</a> | <a href=\"#\" class=\"id\">Log in</a>";
@@ -119,18 +155,19 @@ session_start();
 </div>
 <div class="register">
     <form target="_self" action="register.php" method="POST" id="register">
-        <input type="text" id="uname" name="uname" value="Username" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Username'}"/> <br/>
-        <input type="password" id="pass" name="pass" value="Password" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Password'}"/> <br/>
-        <input type="password" id="pass2" name="pass2" value="Password" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Password'}"/> <br/>
-        <input type="text" name="fname" value="First name" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='First name'}"/> <br/>
-        <input type="text" name="mname" value="Middle name" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Middle name'}"/> <br/>
-        <input type="text" name="lname" value="Last name" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Last name'}"/> <br/>
-        <input type="text" id="email" name="email" value="e-mail" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='e-mail'}"/> <br/>
-        <input type="radio" name="role" value="cust" checked>Customer &nbsp;&nbsp;
+        <input type="text" id="uname" name="uname" placeholder="Username" /> <br/>
+        <input type="password" id="pass" name="pass" placeholder="Password" /> <br/>
+        <input type="password" id="pass2" name="pass2" placeholder="Confirm password" /> <br/>
+        <input type="text" id="fname" name="fname" placeholder="First name" /> <br/>
+        <input type="text" id="mname" name="mname" placeholder="Middle name" /> <br/>
+        <input type="text" id="lname" name="lname" placeholder="Last name" /> <br/>
+        <input type="text" id="email" name="email" placeholder="e-mail" /> <br/>
+        <input type="radio" name="role" value="cust" checked>Customer
         <input type="radio" name="role" value="mech"> Mechanic<br />
-        <input type="text" name="phone" value="Phone number" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Phone number'}"/> <br/>
-        <input type="text" name="address" value="Address" onfocus="if(this.value != '') {this.value=''}" onblur="if(this.value == ''){this.value ='Address'}"/> <br/>
-        <input type="button" value="Register" onclick="validate()">
+        <input type="text" name="phone" placeholder="Phone number" /> <br/>
+        <input type="text" name="address" placeholder="Address" /> <br/>
+        <input type="button" value="Register" onclick="validate()"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="button" value="Close" class="reg_hide">
     </form>
 </div>
 
@@ -147,7 +184,8 @@ session_start();
         <input type="radio" name="role" value="mech" <?php if ($user_info['type'] == '0') echo "checked";?> > Mechanic<br />
         <input type="text" name="phone" value="<?php echo $user_info['phone']; ?>"/> <br/>
         <input type="text" name="address" value='<?php echo $user_info['address']; ?>' /> <br/>
-        <input type="button" value="Save Changes" onclick="edit_validate()">
+        <input type="button" value="Save Changes" onclick="edit_validate()"> &nbsp;&nbsp;&nbsp;
+        <input type="button" value="Close" class="edit">
     </form>
 </div>
 </body>
